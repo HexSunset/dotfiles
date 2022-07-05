@@ -28,7 +28,8 @@ exec --no-startup-id dex --autostart --environment i3
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
-#exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock -c 000000 --nofork
+exec --no-startup-id xss-lock i3lock -c 000000 --nofork
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
@@ -42,7 +43,7 @@ exec xinput set-prop "MSFT0001:00 06CB:CE2D Touchpad" "libinput Tapping Enabled"
 exec setxkbmap ee us
 
 # Set wallpaper
-exec feh --bg-scale $HOME/Pictures/wallpaper/arch-rainbow-1920x1080.png
+exec feh --bg-scale $HOME/Pictures/wallpaper/arch-black-4k.png
 
 # Start picom compositor
 exec --no-startup-id picom --config $HOME/.config/picom/picom.conf
@@ -170,28 +171,35 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
 
 # Exit dialogue
-bindsym $mod+Shift+e exec rofi -show power-menu -modi power-menu:rofi-power-menu
+bindsym $mod+Shift+e exec --no-startup-id rofi -show menu -modi menu:/home/aurora/.local/bin/rofi-power-menu
 
 # Take screenshot
-bindsym --release $mod+x exec --no-startup-id import $HOME/Pictures/screenshots/${date %F}
+bindsym --release $mod+Shift+s exec  --no-startup-id i3-scrot -sc
+bindsym Print exec --no-startup-id i3-scrot -wc
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
-    # These bindings trigger as soon as you enter the resize mode
+        # These bindings trigger as soon as you enter the resize mode
 
-    # Pressing left will shrink the window’s width.
-    # Pressing right will grow the window’s width.
-    # Pressing up will shrink the window’s height.
-    # Pressing down will grow the window’s height.
-    bindsym l resize grow width 10 px or 10 ppt
-    bindsym k resize shrink height 10 px or 10 ppt
-    bindsym j resize grow height 10 px or 10 ppt
-    bindsym h resize shrink width 10 px or 10 ppt
+        # Pressing left will shrink the window’s width.
+        # Pressing right will grow the window’s width.
+        # Pressing up will shrink the window’s height.
+        # Pressing down will grow the window’s height.
+        bindsym h       resize shrink width 10 px or 10 ppt
+        bindsym j       resize grow height 10 px or 10 ppt
+        bindsym k         resize shrink height 10 px or 10 ppt
+        bindsym l      resize grow width 10 px or 10 ppt
 
-    # back to normal: Enter or Escape or $mod+r
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-    bindsym $mod+r mode "default"
+        # same bindings, but for the arrow keys
+        bindsym Left        resize shrink width 10 px or 10 ppt
+        bindsym Down        resize grow height 10 px or 10 ppt
+        bindsym Up          resize shrink height 10 px or 10 ppt
+        bindsym Right       resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape or Mod1+r
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym Mod1+r mode "default"
 }
 
 bindsym $mod+r mode "resize"
